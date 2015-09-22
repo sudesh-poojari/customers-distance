@@ -25,7 +25,7 @@ class CustomerDistance {
 
 			deferred.resolve(sortedCustomers);
 
-		}, function (err) {
+		}).catch(function (err) {
 			deferred.reject(err);
 		});
 
