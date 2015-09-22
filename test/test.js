@@ -96,14 +96,14 @@ describe('Customer', function () {
 						    name: 'Charlie Halligan',
 						    longitude: '-7.714444' } ];
 
-		var output = customerDistance.getCustomersByDistance(inputData, 200);
+		var output = customerDistance.filterCustomersByDistance(inputData, 200);
 		var expectedOutput = { '3': 'Jack Enright', '28': 'Charlie Halligan' };
 		expect(output).to.eql(expectedOutput);
 
-		output = customerDistance.getCustomersByDistance(inputData, 100);
+		output = customerDistance.filterCustomersByDistance(inputData, 100);
 		expect(output).to.eql({});
 
-		output = customerDistance.getCustomersByDistance([], 100);
+		output = customerDistance.filterCustomersByDistance([], 100);
 		expect(output).to.eql({});
 
 	});
@@ -128,9 +128,9 @@ describe('Customer', function () {
 						    name: 'Charlie Halligan',
 						    longitude: '-7.714444' } ];
 
-		expect(customerDistance.getCustomersByDistance.bind(customerDistance, undefinedVar, distance)).to.throw("Invalid customers.");
-		expect(customerDistance.getCustomersByDistance.bind(customerDistance, customers, undefinedVar)).to.throw("Invalid distance.");
-		expect(customerDistance.getCustomersByDistance.bind(customerDistance, customers, "2ad")).to.throw("Invalid distance.");
+		expect(customerDistance.filterCustomersByDistance.bind(customerDistance, undefinedVar, distance)).to.throw("Invalid customers.");
+		expect(customerDistance.filterCustomersByDistance.bind(customerDistance, customers, undefinedVar)).to.throw("Invalid distance.");
+		expect(customerDistance.filterCustomersByDistance.bind(customerDistance, customers, "2ad")).to.throw("Invalid distance.");
 	});
 
 	it('Sort by Id', function () {

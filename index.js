@@ -1,46 +1,48 @@
 "use strict";
 
 var customerLib = require('./lib');
-var Q = require('q');
 
 const baseCoordinates = {latitude:  53.3381985, longitude: -6.2592576};
 
 class CustomerDistance {
 
 	/**
-	 * getCustomers returns promise which resolves to customers filtered by given distance
+	 * getCustomersByDistance returns promise which resolves to customers filtered by given distance
 	 * @param {number} distance - The distance of customer from intercom office
 	 *
 	 **/
 
-	getCustomers(distance) {
-		var deferred = Q.defer();
+	getCustomersByDistance(distance) {
 
-		customerLib.reader.fetchCustomers().then((data) => {
+		var _this = this;
+		return new Promise(function (resolve, reject) {
 
-			var customers = customerLib.parser.parse(data);
+			customerLib.reader.fetchCustomers().then(function (data) {
 
-			var qualifiedCustomers = this.getCustomersByDistance(customers, distance);
-			var sortedCustomers = this.sortCustomersById(qualifiedCustomers);
+				var customers = customerLib.parser.parse(data);
 
-			deferred.resolve(sortedCustomers);
+				var qualifiedCustomers = _this.filterCustomersByDistance(customers, distance);
+				var sortedCustomers = _this.sortCustomersById(qualifiedCustomers);
 
-		}).catch(function (err) {
-			deferred.reject(err);
+				resolve(sortedCustomers);
+
+			}).catch(function (err) {
+				reject(err);
+			});
+
 		});
 
-		return deferred.promise;throw new Error('Invalid Customers.');
 	}
 
 	/**
-	 * getCustomersByDistance returns customers filtered by given distance calulated
+	 * filterCustomersByDistance returns customers filtered by given distance calulated
 	 * using respective latitude and longitude
 	 * @param {object} customers - List of customers having user_id, name, latitude and longitude
 	 * @param {number} distance - The distance of customer from intercom office
 	 *
 	 **/
 
-	getCustomersByDistance(customers, distance) {
+	filterCustomersByDistance(customers, distance) {
 
 		if (typeof customers == undefined ||
 			!Array.isArray(customers)) {
