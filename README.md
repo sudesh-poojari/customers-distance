@@ -1,5 +1,5 @@
 # Customers Distance
-Code to fetch customers by distance from intercom HQ
+NodeJS application to fetch customers by distance from intercom HQ
 
 
 ## Executing the code
